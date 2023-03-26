@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { auth } from '../../../../firbaseConfig/Firebase';
+import { googleProvider} from 'firbaseConfig/Firebase';
+import { signInWithPopup } from 'firebase/auth';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -45,7 +48,11 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
 
   const googleHandler = async () => {
-    console.error('Login');
+    try {
+      await signInWithPopup(auth, googleProvider)
+    } catch (err){
+      console.error(err)
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
