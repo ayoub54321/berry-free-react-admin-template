@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { auth } from '../../../../firbaseConfig/Firebase';
-import { googleProvider} from 'firbaseConfig/Firebase';
-import { signInWithPopup } from 'firebase/auth';
-
+import { auth, googleProvider } from '../../../../firbaseConfig/Firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -46,14 +45,7 @@ const FirebaseLogin = ({ ...others }) => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
-
-  const googleHandler = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider)
-    } catch (err){
-      console.error(err)
-    }
-  };
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -62,6 +54,21 @@ const FirebaseLogin = ({ ...others }) => {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const googleHandler = async () => {
+    signInWithPopup(auth, googleProvider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      navigate('/');
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.customData.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+    });
   };
 
   return (
