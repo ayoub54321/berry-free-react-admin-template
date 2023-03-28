@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth,GoogleAuthProvider} from "firebase/auth";
+import { getAuth,GoogleAuthProvider,signInWithPopup,inMemoryPersistence,setPersistence} from "firebase/auth";
 
 
 const firebaseConfig = {
@@ -10,14 +10,40 @@ const firebaseConfig = {
     messagingSenderId: "1056498683163",
     appId: "1:1056498683163:web:47c2c3e2584a303e90d7be"
 };
+
 console.log(firebaseConfig)
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-// Auth with google sign in :
 export const googleProvider = new GoogleAuthProvider();
+
+setPersistence(auth,inMemoryPersistence)
+  .then(() => {
+    return signInWithPopup(auth, googleProvider);
+  })
+  .catch((error) => {
+    const errorMessage = error.message;
+    console.log(errorMessage)
+  });
+
+
 // signOut(auth).then(() => {
 //     // Sign-out successful.
 //   }).catch((error) => {
 //     // An error happened.
 //   });
+
+// const useAuth = () => {
+//     const [currentUser, setCurrentUser] = useState({});
+//     useEffect(() => {
+//         onAuthStateChanged(auth, (user) => {
+//             if (user) {
+//             setCurrentUser(user);
+//             } else {
+//             setCurrentUser(null);
+//             }
+//         });
+//     });
+//     return currentUser;
+// };
+
+

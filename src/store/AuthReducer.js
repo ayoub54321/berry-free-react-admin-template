@@ -2,44 +2,37 @@
 import config from 'config';
 
 // action - state management
-import * as actionTypes from './actions';
-
+import { LogIn, LogOut } from './authActions';
 export const initialState = {
-  isOpen: [], // for active default menu
-  fontFamily: config.fontFamily,
-  borderRadius: config.borderRadius,
-  opened: true
+    uid: "",
+    name: "",
+    email: "",
+    photoURL:""
 };
 
-// ==============================|| CUSTOMIZATION REDUCER ||============================== //
+// ==============================|| authentication REDUCER ||============================== //
 
-const customizationReducer = (state = initialState, action) => {
-  let id;
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.MENU_OPEN:
-      id = action.id;
+    case LogIn:
       return {
-        ...state,
-        isOpen: [id]
+        uid: action.uid,
+        name: action.displayName,
+        email: action.email,
+        photoURL: action.photoURL
       };
-    case actionTypes.SET_MENU:
+
+      case LogOut:
       return {
-        ...state,
-        opened: action.opened
+        uid: null,
+        name: null,
+        email: null,
+        photoURL: null
       };
-    case actionTypes.SET_FONT_FAMILY:
-      return {
-        ...state,
-        fontFamily: action.fontFamily
-      };
-    case actionTypes.SET_BORDER_RADIUS:
-      return {
-        ...state,
-        borderRadius: action.borderRadius
-      };
+
     default:
       return state;
   }
 };
 
-export default customizationReducer;
+export default authReducer;

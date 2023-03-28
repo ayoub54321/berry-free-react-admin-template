@@ -3,6 +3,9 @@ import { useSelector } from 'react-redux';
 import { auth, googleProvider } from '../../../../firbaseConfig/Firebase';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logIn } from 'store/authActions';
+
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -36,6 +39,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import { Login } from '@mui/icons-material';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -46,28 +50,27 @@ const FirebaseLogin = ({ ...others }) => {
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  //==============================|| signInGoogle ||==============================
+  const dispatch = useDispatch();
   const googleHandler = async () => {
     signInWithPopup(auth, googleProvider)
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       const user = result.user;
+      console.log(user)
+      dispatch(logIn(user))
       navigate('/');
     }).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
       const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log(error)
     });
   };
 
@@ -132,7 +135,7 @@ const FirebaseLogin = ({ ...others }) => {
         </Grid>
       </Grid>
 
-      <Formik
+      {/* <Formik
         initialValues={{
           email: 'info@codedthemes.com',
           password: '123456',
@@ -236,7 +239,7 @@ const FirebaseLogin = ({ ...others }) => {
             </Box>
           </form>
         )}
-      </Formik>
+      </Formik> */}
     </>
   );
 };
