@@ -5,7 +5,6 @@ import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'store/authActions';
-
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -66,7 +65,7 @@ const FirebaseLogin = ({ ...others }) => {
       const token = credential.accessToken;
       const user = result.user;
       console.log(user)
-      dispatch(logIn(user))
+      console.log(dispatch(logIn(user)))
       navigate('/');
     }).catch((error) => {
       const credential = GoogleAuthProvider.credentialFromError(error);

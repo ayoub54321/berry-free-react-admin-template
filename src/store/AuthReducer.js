@@ -1,17 +1,10 @@
 // project imports
 import config from 'config';
-
 // action - state management
 import { LogIn, LogOut } from './authActions';
-export const initialState = {
-    uid: "",
-    name: "",
-    email: "",
-    photoURL:""
-};
+export const initialState = {};
 
 // ==============================|| authentication REDUCER ||============================== //
-
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LogIn:
@@ -34,5 +27,4 @@ const authReducer = (state = initialState, action) => {
       return state;
   }
 };
-
 export default authReducer;
