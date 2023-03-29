@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { useEffect, useState } from "react";
-import { getAuth,GoogleAuthProvider,signInWithPopup,inMemoryPersistence,setPersistence,onAuthStateChanged} from "firebase/auth";
+import { getAuth,GoogleAuthProvider} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -14,33 +13,10 @@ const firebaseConfig = {
 
 console.log(firebaseConfig)
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
 const db = getFirestore(app);
+
+export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
-
-export const useAuth = () => {
-    const [currentUser, setCurrentUser] = useState({});
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-            setCurrentUser(user);
-            } else {
-            setCurrentUser(null);
-            }
-        });
-    },[]);
-    return currentUser;
-};
-
-// setPersistence(auth,inMemoryPersistence)
-//   .then(() => {
-//     return signInWithPopup(auth, googleProvider);
-//   })
-//   .catch((error) => {
-//     const errorMessage = error.message;
-//     console.log(errorMessage)
-//   });
-
 
 // signOut(auth).then(() => {
 //     // Sign-out successful.

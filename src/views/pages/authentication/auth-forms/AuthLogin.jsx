@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {store} from '../../../../store/index';
 import { useSelector } from 'react-redux';
 import { auth, googleProvider } from '../../../../firbaseConfig/Firebase';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
@@ -39,6 +40,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
 import { Login } from '@mui/icons-material';
+import authReducer from 'store/authReducer';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -47,6 +49,7 @@ const FirebaseLogin = ({ ...others }) => {
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
+  const userID = useSelector((state) => state.auth.uid)
   const [checked, setChecked] = useState(true);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -63,9 +66,13 @@ const FirebaseLogin = ({ ...others }) => {
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
+
       const user = result.user;
       console.log(user)
-      console.log(dispatch(logIn(user)))
+      dispatch(logIn(user))
+      console.log(store.getState());
+      console.log(userID)
+      
       navigate('/');
     }).catch((error) => {
       const credential = GoogleAuthProvider.credentialFromError(error);

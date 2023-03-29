@@ -7,7 +7,7 @@ import authReducer from './authReducer';
 
 const reducer = combineReducers({
   customization: customizationReducer,
-  authentication: authReducer
+  auth: authReducer
 });
 
 export default reducer;
