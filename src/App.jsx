@@ -1,8 +1,9 @@
-import { useSelector } from 'react-redux';
-import { store } from './store/index';
-import { Provider } from "react-redux";
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
+import { Provider } from "react-redux";
+import { store } from './store/index';
+import { useSelector } from 'react-redux';
+
 
 // routing
 import Routes from 'routes';

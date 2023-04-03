@@ -1,8 +1,10 @@
-// project imports
-import config from 'config';
-// action - state management
 import { LogIn, LogOut } from './authActions';
-export const initialState = {};
+export const initialState = {
+  uid: null,
+  name: null,
+  email: null,
+  photoURL: null
+};
 
 // ==============================|| authentication REDUCER ||============================== //
 const authReducer = (state = initialState, action) => {
